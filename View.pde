@@ -1,15 +1,25 @@
-Menu menu = new Menu();
+class ViewManager {
+    int curView;
+    private View[] views = new View[4];
 
-public class View {
-    protected int view = 0;
-    View(int view) {
-        this.view = view;
+    void nextFrame() {
+        views[curView].nextFrame();
     }
 
-    void render() {
-        switch (view) {
-            case 0:
-                menu.render();
-        }
+    void setView(int view) {
+        curView = view;
     }
+    void setView(int view, String opt) {
+        curView = view;
+        this.getCurrent().initialize(opt);
+    }
+
+    View getCurrent() {
+        return views[curView];
+    }
+}
+
+interface View {
+    void nextFrame();
+    void initialize(String s);
 }
