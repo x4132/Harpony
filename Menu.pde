@@ -1,7 +1,7 @@
 class Menu implements View{
     Button start = new Button(loadImage("ui/menuStart.png"), 0.449 * 0.65, 0.127 * 0.65, 0.5, "start");
     Button options = new Button(loadImage("ui/menuOptions.png"), 0.748 * 0.65, 0.166 * 0.65, 0.8, "options");
-
+    
     PImage backdrop = loadImage("ui/menuBg.png");
     PImage title = loadImage("ui/menuName.png");
     
@@ -30,6 +30,7 @@ class Button implements EventListener {
         this.scaleH = scaleH;
         this.posY = posY;
         this.type = type;
+        clickEventManager.subscribe(this);
     }
     
     void draw() {
@@ -41,15 +42,19 @@ class Button implements EventListener {
             image(im, width / 2, height * posY, width * scaleW, width * scaleH);
         }
     }
-
+    
     void trigger() {
-        switch(type) {
-            case "start":
+        if (mouseX < width / 2 + ((width * scaleW) / 2) && mouseX > width / 2 - ((width * scaleW) / 2)
+            && mouseY < height * posY + ((width * scaleH) / 2) && mouseY > height * posY - ((width * scaleH) / 2)) {
+            switch(type) {
+                case"start":
+                println("start");
                 viewManager.setView(Views.CUTSCENE, "begin");
                 break;
-            case "options":
+                case"options":
                 viewManager.setView(Views.OPTIONS);
                 break;
+            }
         }
     }
 }
