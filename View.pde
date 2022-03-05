@@ -1,33 +1,42 @@
+import java.util.EnumMap;
+
 class ViewManager implements View {
-    int curView;
-    private View[] views = new View[4];
+    Views curView;
+    private EnumMap<Views, View> map = new EnumMap<Views, View>(Views.class);
 
     void nextFrame() {
-        if (views[curView] != null) {
-            views[curView].nextFrame();
+        if (map.get(curView) != null) {
+            map.get(curView).nextFrame();
         }
     }
 
-    void setView(int view) {
+    void setView(Views view) {
         curView = view;
     }
-    void setView(int view, String opt) {
+    void setView(Views view, String opt) {
         curView = view;
         this.getCurrent().initialize(opt);
     }
 
     View getCurrent() {
-        return views[curView];
+        return map.get(curView);
     }
 
     void initialize(String s) {
-        views[0] = new Menu();
+        map.put(Views.MENU, new Menu());
 
-        this.setView(0);
+        this.setView(Views.MENU);
     }
 }
 
 interface View {
     void nextFrame();
     void initialize(String s);
+}
+
+enum Views {
+    MENU,
+    CUTSCENE,
+    GAME,
+    OPTIONS
 }

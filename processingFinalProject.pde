@@ -1,6 +1,7 @@
 import processing.javafx.*;
 
 ViewManager viewManager = new ViewManager();
+ClickEventManager clickEventManager = new ClickEventManager();
 
 void setup() {
     // fullScreen();
@@ -11,4 +12,8 @@ void setup() {
 void draw() {
     background(255);
     viewManager.nextFrame();
+}
+
+void mousePressed() {
+    clickEventManager.mouseDown();
 }
