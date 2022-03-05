@@ -1,6 +1,6 @@
-class Menu implements View, Event {
-    Button start = new Button(loadImage("ui/menuStart.png"), 0.449 * 0.65, 0.127 * 0.65, 0.5);
-    Button options = new Button(loadImage("ui/menuOptions.png"), 0.748 * 0.65, 0.166 * 0.65, 0.8);
+class Menu implements View{
+    Button start = new Button(loadImage("ui/menuStart.png"), 0.449 * 0.65, 0.127 * 0.65, 0.5, "start");
+    Button options = new Button(loadImage("ui/menuOptions.png"), 0.748 * 0.65, 0.166 * 0.65, 0.8, "options");
 
     PImage backdrop = loadImage("ui/menuBg.png");
     PImage title = loadImage("ui/menuName.png");
@@ -16,19 +16,20 @@ class Menu implements View, Event {
     }
     
     void initialize(String s) {}
-
 }
 
-class Button {
+class Button implements EventListener {
     PImage im = null;
     float scaleW = 0, scaleH = 0;
     float posY = 0;
+    String type;
     
-    Button(PImage im, float scaleW, float scaleH, float posY) {
+    Button(PImage im, float scaleW, float scaleH, float posY, String type) {
         this.im = im;
         this.scaleW = scaleW;
         this.scaleH = scaleH;
         this.posY = posY;
+        this.type = type;
     }
     
     void draw() {
@@ -38,6 +39,17 @@ class Button {
             image(im, width / 2, height * posY, width * scaleW * 1.1, width * scaleH * 1.1);
         } else {
             image(im, width / 2, height * posY, width * scaleW, width * scaleH);
+        }
+    }
+
+    void trigger() {
+        switch(type) {
+            case "start":
+                viewManager.setView(Views.CUTSCENE, "begin");
+                break;
+            case "options":
+                viewManager.setView(Views.OPTIONS);
+                break;
         }
     }
 }
