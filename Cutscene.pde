@@ -2,7 +2,7 @@ class Cutscene implements View {
     JSONObject data;
     double ticks = -1;
     int startFrameCount = -1;
-    int charPerTick = -1;
+    double charPerTick = -1;
     
     void initialize(String s) {
         String path = "";
@@ -22,12 +22,15 @@ class Cutscene implements View {
     }
     
     void nextFrame() {
-        // frame independent render
+        // frame compensator
         if (ticks >= 0 && startFrameCount >= 0 && charPerTick >= 0) {
-            text(data.getString("text").substring(0,(int) ticks * charPerTick), 0, 0);
+            textSize(128);
+            fill(0);
+            text(data.getString("text").substring(0,(int) (ticks * charPerTick)), 40, 120);
             if (ticks <= data.getInt("ticks")) {
-                println(ticks);
                 ticks += 60 / frameRate;
+            } else {
+                ticks = data.getInt("ticks");
             }
         }
     }
@@ -35,6 +38,6 @@ class Cutscene implements View {
     void startAnimation() {
         ticks = 0;
         startFrameCount = frameCount;
-        charPerTick = data.getString("text").length() / data.getInt("ticks");
+        charPerTick = (float) data.getString("text").length() / data.getInt("ticks");
     }
 }
