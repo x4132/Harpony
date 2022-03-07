@@ -24,6 +24,7 @@ class ViewManager implements View {
 
     void initialize(String s) {
         map.put(Views.MENU, new Menu());
+        map.put(Views.CUTSCENE, new Cutscene());
 
         this.setView(Views.MENU);
     }

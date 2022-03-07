@@ -48,7 +48,6 @@ class Button implements EventListener {
             && mouseY < height * posY + ((width * scaleH) / 2) && mouseY > height * posY - ((width * scaleH) / 2)) {
             switch(type) {
                 case"start":
-                println("start");
                 viewManager.setView(Views.CUTSCENE, "begin");
                 break;
                 case"options":
