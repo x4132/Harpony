@@ -1,14 +1,14 @@
 import processing.javafx.*;
 ViewManager viewManager = new ViewManager();
 ClickEventManager clickEventManager = new ClickEventManager();
-PFont open_sans;
+PFont eina;
 
 void setup() {
     // fullScreen();
     size(800, 600, FX2D);
     viewManager.initialize(null);
-    open_sans = createFont("ui/OpenSans-VariableFont_wdth,wght.ttf", 32);
-    textFont(open_sans, 32);
+    eina = createFont("ui/Eina01-Regular.ttf", 32);
+    textFont(eina, 32);
 }
 
 void draw() {
