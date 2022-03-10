@@ -1,18 +1,20 @@
 class Menu implements View{
-    Button start = new Button(loadImage("ui/menuStart.png"), 0.449 * 0.65, 0.127 * 0.65, 0.5, "start");
-    Button options = new Button(loadImage("ui/menuOptions.png"), 0.748 * 0.65, 0.166 * 0.65, 0.8, "options");
+    Button start = new Button(loadImage("ui/menuStart.png"), 0.537 * 0.45, 0.165 * 0.45, 0.4, "start");
+    Button tutorial = new Button(loadImage("ui/menuTutorial.png"), 0.718 * 0.4, 0.180 * 0.4, 0.6, "tutorial");
+    Button options = new Button(loadImage("ui/menuOptions.png"), 0.758 * 0.42, 0.192 * 0.42, 0.8, "options");
     
-    PImage backdrop = loadImage("ui/menuBg.png");
-    PImage title = loadImage("ui/menuName.png");
+    PImage backdrop = loadImage("ui/menuBkg.png");
+    // PImage title = loadImage("ui/menuName.png");
     
     void nextFrame() {
         imageMode(CORNER);
         image(backdrop, 0, 0, width, height);
-        imageMode(CENTER);
-        image(title, width / 2, height * 0.2, width * 0.797 * 0.65, width * 0.159 * 0.65);
+        // imageMode(CENTER);
+        // image(title, width / 2, height * 0.2, width * 0.797 * 0.65, width * 0.159 * 0.65);
         
         start.draw();
         options.draw();
+        tutorial.draw();
     }
     
     void initialize(String s) {}
