@@ -39,5 +39,8 @@ enum Views {
     MENU,
     CUTSCENE,
     GAME,
-    OPTIONS
+    OPTIONS,
+    TRACKLOST,
+    TRACKWIN,
+    TUTORIAL,
 }
