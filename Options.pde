@@ -4,9 +4,6 @@ class Options implements View {
     Button impossible = new Button(loadImage ("ui/optImpossible.png"),1,1,0.5, "impossible");
 
     PImage backdrop = loadImage("ui/optBkg.png");
-    void nextFrame(){
-        imageMode(CORNER);
-        
-    }
+    void nextFrame(){}
     void initialize(String s){}
 }
