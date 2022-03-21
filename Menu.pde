@@ -1,9 +1,9 @@
 class Menu implements View{
-    Button start = new Button(loadImage("ui/menuStart.png"), 0.537 * 0.45, 0.165 * 0.45, 0.4, "start");
-    Button tutorial = new Button(loadImage("ui/menuTutorial.png"), 0.718 * 0.4, 0.180 * 0.4, 0.6, "tutorial");
-    Button options = new Button(loadImage("ui/menuOptions.png"), 0.758 * 0.42, 0.192 * 0.42, 0.8, "options");
+    Button start = new Button(loadImage("ui/menu/start.png"), 0.537 * 0.45, 0.165 * 0.45, 0.4, "start");
+    Button tutorial = new Button(loadImage("ui/menu/tutorial.png"), 0.718 * 0.4, 0.180 * 0.4, 0.6, "tutorial");
+    Button options = new Button(loadImage("ui/menu/options.png"), 0.758 * 0.42, 0.192 * 0.42, 0.8, "options");
     
-    PImage backdrop = loadImage("ui/menuBkg.png");
+    PImage backdrop = loadImage("ui/menu/bkg.png");
     // PImage title = loadImage("ui/menuName.png");
     
     void nextFrame() {
@@ -50,11 +50,11 @@ class Button implements EventListener {
             && mouseY < height * posY + ((width * scaleH) / 2) && mouseY > height * posY - ((width * scaleH) / 2)) {
             switch(type) {
                 case"start":
-                viewManager.setView(Views.CUTSCENE, "begin");
-                break;
+                    viewManager.setView(Views.CUTSCENE, "begin");
+                    break;
                 case"options":
-                viewManager.setView(Views.OPTIONS);
-                break;
+                    viewManager.setView(Views.OPTIONS);
+                    break;
             }
         }
     }
