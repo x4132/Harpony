@@ -7,7 +7,7 @@ void setup() {
     // fullScreen();
     size(800, 600, FX2D);
     viewManager.initialize(null);
-    open_sans = createFont("ui/OpenSans-VariableFont_wdth,wght.ttf", 32);
+    open_sans = createFont("ui/Eina01-Regular.ttf", 32);
     textFont(open_sans, 32);
 }
 
