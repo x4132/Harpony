@@ -1,7 +1,9 @@
 class Options implements View {
     ButtonGroup bgroup = new ButtonGroup();
+    Button back = new Button(loadImage("ui/opt/back.png"), 0.45 * 0.323, 0.45 * 0.114, 0.5, 0.7, "menu");
     
     PImage backdrop = loadImage("ui/opt/bkg.png");
+    PImage title = loadImage("ui/opt/title.png");
     
     Options() {
         bgroup.add(loadImage("ui/opt/easy.png"), 0.45 * 0.315, 0.45 * 0.118, 0.2, 0.5, "difficulty_easy");
@@ -13,11 +15,22 @@ class Options implements View {
     void nextFrame() {
         imageMode(CORNER);
         image(backdrop, 0, 0, width, height);
+        imageMode(CENTER);
+        image(title, width / 2, height * 0.2, width * 0.45 * 0.685, width * 0.45 * 0.160);
         
         bgroup.draw();
+
+        back.draw();
     }
     
     void initialize(String s) {
+        bgroup.initialize();
+        back.show();
+    }
+
+    void destructor() {
+        bgroup.destructor();
+        back.hide();
     }
 }
 
@@ -41,6 +54,17 @@ class ButtonGroup { // FOR ToggleableButton and ToggleableButton ONLY
         toggleType = type;
         toggleKey = key;
         buttons.get(key).toggle(true);
+    }
+
+    void initialize() {
+        for (ToggleableButton b : buttons) {
+            b.show();
+        }
+    }
+    void destructor() {
+        for (ToggleableButton b : buttons) {
+            b.hide();
+        }
     }
 }
 

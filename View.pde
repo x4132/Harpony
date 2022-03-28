@@ -11,9 +11,12 @@ class ViewManager implements View {
     }
 
     void setView(Views view) {
+        this.getCurrent().destructor();
         curView = view;
+        this.getCurrent().initialize(null);
     }
     void setView(Views view, String opt) {
+        this.getCurrent().destructor();
         curView = view;
         this.getCurrent().initialize(opt);
     }
@@ -27,13 +30,17 @@ class ViewManager implements View {
         map.put(Views.CUTSCENE, new Cutscene());
         map.put(Views.OPTIONS, new Options());
 
-        this.setView(Views.MENU);
+        this.curView = Views.MENU;
+        this.getCurrent().initialize(null);
     }
+
+    void destructor() {}
 }
 
 interface View {
     void nextFrame();
     void initialize(String s);
+    void destructor();
 }
 
 enum Views {

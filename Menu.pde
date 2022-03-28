@@ -17,7 +17,17 @@ class Menu implements View{
         options.draw();
     }
     
-    void initialize(String s) {}
+    void initialize(String s) {
+        start.show();
+        tutorial.show();
+        options.show();
+    }
+
+    void destructor() {
+        start.hide();
+        tutorial.hide();
+        options.hide();
+    }
 }
 
 class Button implements EventListener {
@@ -25,6 +35,7 @@ class Button implements EventListener {
     float scaleW = 0, scaleH = 0;
     float posX = 0, posY = 0;
     String type;
+    boolean shown = false;
     
     Button(PImage image, float scaleW, float scaleH, float posX, float posY, String type) {
         this.image = image;
@@ -33,9 +44,18 @@ class Button implements EventListener {
         this.posX = posX;
         this.posY = posY;
         this.type = type;
-        clickEventManager.subscribe(this);
     }
-    
+
+    void show() {
+        clickEventManager.subscribe(this);
+        shown = true;
+    }
+
+    void hide() {
+        clickEventManager.unsubscribe(this);
+        shown = false;
+    }
+     
     void draw() {
         imageMode(CENTER);
         if (mouseX < width * posX + ((width * scaleW) / 2) && mouseX > width * posX - ((width * scaleW) / 2)
@@ -52,6 +72,8 @@ class Button implements EventListener {
             switch(type) {
                 case "start":
                     viewManager.setView(Views.CUTSCENE, "begin");
+                    break;
+                case "tutorial":
                     break;
                 case "options":
                     viewManager.setView(Views.OPTIONS);

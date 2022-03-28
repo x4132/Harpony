@@ -1,16 +1,23 @@
+import java.util.HashSet;
+
 interface EventListener {
     void trigger();
 }
 
 class ClickEventManager {
-    ArrayList<EventListener> followers = new ArrayList<EventListener>();
+    HashSet<EventListener> subscribers = new HashSet<EventListener>();
     
     void subscribe(EventListener e) {
-        followers.add(e);
+        subscribers.add(e);
+    }
+    
+    void unsubscribe(EventListener e) {
+        subscribers.remove(e);
     }
     
     void mouseDown() {
-        for (EventListener e : followers) {
+        HashSet<EventListener> tempSet = new HashSet<EventListener>(subscribers);
+        for (EventListener e : tempSet) {
             e.trigger();
         }
     }
