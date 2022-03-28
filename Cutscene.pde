@@ -20,6 +20,10 @@ class Cutscene implements View {
         
         this.startAnimation();
     }
+
+    void destructor() {
+        
+    }
     
     void nextFrame() {
         // frame compensator
