@@ -63,7 +63,9 @@ class Cutscene implements View, EventListener {
     }
 
     void trigger() {
-
+        if (animDone) {
+            nextScene();
+        }
     }
     
     void startAnimation() {
