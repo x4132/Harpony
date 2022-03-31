@@ -3,7 +3,7 @@ class Menu implements View{
     Button tutorial = new Button(loadImage("ui/menu/tutorial.png"), 0.718 * 0.4, 0.180 * 0.4, 0.5, 0.6, "tutorial");
     Button options = new Button(loadImage("ui/menu/options.png"), 0.758 * 0.42, 0.192 * 0.42, 0.5, 0.8, "options");
     
-    PImage backdrop = loadImage("ui/menu/bg.png");
+    PImage backdrop = loadImage("ui/menu/bkg.png");
     PImage title = loadImage("ui/menu/name.png");
     
     void nextFrame() {
