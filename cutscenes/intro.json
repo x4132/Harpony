@@ -3,7 +3,7 @@
     "ticks": 90,
     "textSize": 35,
     "endAction": {
-        "view": "game",
+        "view": "GAME",
         "opt": ""
     }
 }
