@@ -2,6 +2,7 @@ import processing.javafx.*;
 ViewManager viewManager = new ViewManager();
 ClickEventManager clickEventManager = new ClickEventManager();
 PFont open_sans;
+String curDiff = "difficulty_easy";
 
 void setup() {
     // fullScreen();

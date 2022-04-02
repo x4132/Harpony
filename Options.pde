@@ -51,6 +51,7 @@ class ButtonGroup { // FOR ToggleableButton and ToggleableButton ONLY
 
     void trigger(String type, int key) {
         buttons.get(toggleKey).toggle(false);
+        curDiff = type;
         toggleType = type;
         toggleKey = key;
         buttons.get(key).toggle(true);
