@@ -4,6 +4,6 @@
     "textSize": 35,
     "endAction": {
         "view": "GAME",
-        "opt": ""
+        "opt": "HappyFakeShow"
     }
 }
