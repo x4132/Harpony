@@ -11,11 +11,13 @@ class ViewManager implements View {
     }
 
     void setView(Views view) {
+        println("ViewManager > " + view.toString());
         this.getCurrent().destructor();
         curView = view;
         this.getCurrent().initialize(null);
     }
     void setView(Views view, String opt) {
+        println("ViewManager > " + view.toString() + "/" + opt);
         this.getCurrent().destructor();
         curView = view;
         this.getCurrent().initialize(opt);
@@ -29,6 +31,7 @@ class ViewManager implements View {
         map.put(Views.MENU, new Menu());
         map.put(Views.CUTSCENE, new Cutscene());
         map.put(Views.OPTIONS, new Options());
+        map.put(Views.GAME, new Game());
 
         this.curView = Views.MENU;
         this.getCurrent().initialize(null);

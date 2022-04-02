@@ -66,6 +66,9 @@ class Cutscene implements View, EventListener {
     void trigger() {
         if (animDone) {
             nextScene();
+        } else {
+            animDone = true;
+            ticks = data.getInt("ticks");
         }
     }
     
