@@ -39,7 +39,7 @@ class Cutscene implements View, EventListener {
         if (ticks >= 0 && startFrameCount >= 0 && charPerTick >= 0 && ticks < data.getInt("ticks")) {
             textSize(data.getInt("textSize"));
             fill(#ea9f75);
-            textAlign(CENTER);
+            textAlign(LEFT);
             text(data.getString("text").substring(0,(int) Math.round(ticks * charPerTick)), 10, 10, width - 20, height - 20);
             if (ticks < data.getInt("ticks")) {
                 ticks += 60 / frameRate;
@@ -49,7 +49,7 @@ class Cutscene implements View, EventListener {
                 }
             }
         } else {
-            textAlign(CENTER);
+            textAlign(LEFT);
             text(data.getString("text").substring(0,(int) Math.round(ticks * charPerTick)), 10, 10, width - 20, height - 20);
             push();
             fill(#ea9f75, Math.round(Math.sin(frameCount / 15f) * 127.5 + 127.5));
