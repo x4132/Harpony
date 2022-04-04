@@ -1,6 +1,8 @@
 class Game implements View {
     JSONObject data;
     int startFrameCount = 0;
+    int score = 0;
+    int combo = 0;
 
     PImage backdrop = loadImage("ui/game/bkg.png");
 
