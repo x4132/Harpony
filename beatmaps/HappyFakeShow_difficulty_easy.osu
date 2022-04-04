@@ -1,0 +1,15 @@
+osu file format v14
+
+[General]
+AudioFilename: HappyFakeShow.wav
+AudioLeadIn: 0
+Mode: 3
+
+[Metadata]
+Title:Tempestissimo
+TitleUnicode:Tempestissimo
+Artist:t+pazolite
+ArtistUnicode:
+Creator:0x41*32
+Version:Easy
+Source:BOFXVII

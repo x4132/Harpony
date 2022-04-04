@@ -23,6 +23,8 @@ class Game implements View {
         imageMode(CORNER);
         image(backdrop, 0, 0, width, height);
         image(track, width * 0.4, 0, width * 0.5, height);
+        int lineWidth = (int) Math.round(width * 0.4 * 0.0165394402035623d);
+        
     }
 }
 
