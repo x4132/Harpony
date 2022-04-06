@@ -1,6 +1,6 @@
 class Game implements View {
     JSONObject data;
-    int startFrameCount = 0;
+    int startTime = 0;
     int score = 0;
     int combo = 0;
     
@@ -8,18 +8,23 @@ class Game implements View {
     
     PImage track = loadImage("ui/game/track.png");
     
-    PImage note = loadImage("ui/game/note.png");
     PImage begin = loadImage("ui/game/begin.png");
     PImage middle = loadImage("ui/game/middle.png");
     PImage end = loadImage("ui/game/end.png");
 
     OsuFile osu;
     
-    Track t1, t2, t3, t4;
+    Track t0, t1, t2, t3;
     
     void initialize(String s) {
-        // data = loadJSONObject("beatmaps/" + s + "_" + curDiff + ".json");
-        osu = new OsuFile("beatmaps/HappyFakeShow_difficulty_easy.osu", sketchPath());
+        osu = new OsuFile("beatmaps/HappyFakeShow_" + curDiff + ".osu", sketchPath());
+
+        t0 = new Track(osu.cols.get(0));
+        t1 = new Track(osu.cols.get(1));
+        t2 = new Track(osu.cols.get(2));
+        t3 = new Track(osu.cols.get(3));
+
+        startTime = millis();
     }
     
     void destructor() {
@@ -31,14 +36,53 @@ class Game implements View {
         image(backdrop, 0, 0, width, height);
         image(track, width * 0.4, 0, width * 0.5, height);
         int lineWidth = (int) Math.round(width * 0.4 * 0.0165394402035623d);
-        image(note, width * 0.5, -100, 10, 20);
+        int noteWidth = Math.round((width * 0.5 - lineWidth * 4) / 4);
+        int linePos = (int) Math.round(height * 0.841250751653638d);
+        int tick = millis() - startTime;
+        t0.nextFrame(tick, 0, lineWidth, noteWidth, linePos);
+        t1.nextFrame(tick, 1, lineWidth, noteWidth, linePos);
+        t2.nextFrame(tick, 2, lineWidth, noteWidth, linePos);
+        t3.nextFrame(tick, 3, lineWidth, noteWidth, linePos);
     }
 }
 
 class Note {
+    int time;
+    int noteSpeed = 0; // % of the screen/s
+    // (tick - time) * (noteSpeed / 1000)
     
+    PImage note = loadImage("ui/game/note.png");
+
+    Note(int time) {
+        this.time = time;
+    }
+
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
+        image(note, xPos, (int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth, (noteWidth) * 0.351758794);
+    }
+}
+
+class Hold extends Note {
+    int end;
+
+    Hold(int time, int end) {
+        super(time);
+        this.end = end;
+    }
 }
 
 class Track {
-    
+    ArrayList<Note> notes;
+
+    Track(ArrayList<Note> notes) {
+        this.notes = notes;
+    }
+
+    void nextFrame(int tick, int col, int lineWidth, int noteWidth, int linePos) {
+        int xPos = Math.round(noteWidth * col + lineWidth * (col + 1) + width * 0.4);
+
+        for (Note n : notes) {
+            n.nextFrame(tick, xPos, noteWidth, linePos);
+        }
+    }
 }
