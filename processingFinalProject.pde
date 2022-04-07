@@ -6,6 +6,8 @@ PFont open_sans;
 PFont eina_MB;
 String curDiff = "difficulty_easy";
 
+PApplet parent;
+
 void setup() {
     // fullScreen();
     size(800, 600, FX2D);
@@ -13,6 +15,8 @@ void setup() {
     open_sans = createFont("ui/Eina01-Regular.ttf", 32);
     eina_MB = createFont("ui/Eina01-SemiBold.ttf", 32);
     textFont(open_sans, 32);
+
+    parent = this;
 }
 
 void draw() {

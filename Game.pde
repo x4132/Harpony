@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 class Game implements View, EventListener {
     JSONObject data;
     int startTime = 0;
@@ -11,6 +13,8 @@ class Game implements View, EventListener {
     PImage begin = loadImage("ui/game/begin.png");
     PImage middle = loadImage("ui/game/middle.png");
     PImage end = loadImage("ui/game/end.png");
+
+    SoundFile song;
     
     OsuFile osu;
     
@@ -26,6 +30,9 @@ class Game implements View, EventListener {
         
         keyboardManager.subscribe(this);
         
+        song = new SoundFile(parent, "audio/"+ osu.audioFile);
+
+        song.play();
         startTime = millis();
     }
     
@@ -67,7 +74,7 @@ class Game implements View, EventListener {
 
 class Note {
     int time;
-    int noteSpeed = 150; // % of the screen/s
+    int noteSpeed = 400; // % of the screen/s
     
     PImage note = loadImage("ui/game/note.png");
     
