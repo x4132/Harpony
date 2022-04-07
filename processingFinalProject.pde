@@ -1,6 +1,7 @@
 import processing.javafx.*;
 ViewManager viewManager = new ViewManager();
 ClickEventManager clickEventManager = new ClickEventManager();
+KeyboardManager keyboardManager = new KeyboardManager();
 PFont open_sans;
 PFont eina_MB;
 String curDiff = "difficulty_easy";
@@ -21,4 +22,8 @@ void draw() {
 
 void mousePressed() {
     clickEventManager.mouseDown();
+}
+
+void keyPressed() {
+    keyboardManager.keyDown();
 }

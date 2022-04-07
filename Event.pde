@@ -35,7 +35,7 @@ class KeyboardManager {
         subscribers.remove(e);
     }
     
-    void mouseDown() {
+    void keyDown() {
         HashSet<EventListener> tempSet = new HashSet<EventListener>(subscribers);
         println("KeyboardManager > Key event broadcast to " + tempSet.size() + " subscribers");
         for (EventListener e : tempSet) {
