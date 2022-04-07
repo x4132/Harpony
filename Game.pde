@@ -44,6 +44,19 @@ class Game implements View, EventListener {
         imageMode(CORNER);
         image(backdrop, 0, 0, width, height);
         image(track, width * 0.4, 0, width * 0.5, height);
+        // image(track, width * 0.4, 0, height/1.7, height);
+        textFont(eina_MB, 40/* 40 = 800/20)*/);
+        textAlign(CORNER);
+        fill(#77a6e0);
+        text("Score: " + score, width*0.05+3, height *0.1+3);
+        fill(#a5cdff);
+        text("Score: " + score, width*0.05, height *0.1);
+        textSize(30);
+        fill(#77a6e0);
+        text("Combo: " + combo, width*0.05, height *0.2);
+        // fill(#a5cdff);
+        // text("Combo: " + combo, width*0.05, height *0.2);
+
         int lineWidth = (int) Math.round(width * 0.4 * (15d / 875d));
         int noteWidth = Math.round((width * 0.5 - lineWidth * 5) / 4);
         int linePos = (int) Math.round(height * (1472d / 1750d));
@@ -74,7 +87,7 @@ class Game implements View, EventListener {
 
 class Note {
     int time;
-    int noteSpeed = 400; // % of the screen/s
+    int noteSpeed = 600; // % of the screen/s
     
     PImage note = loadImage("ui/game/note.png");
     
