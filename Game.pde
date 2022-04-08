@@ -13,7 +13,7 @@ class Game implements View, EventListener {
     PImage begin = loadImage("ui/game/begin.png");
     PImage middle = loadImage("ui/game/middle.png");
     PImage end = loadImage("ui/game/end.png");
-
+    
     SoundFile song;
     
     OsuFile osu;
@@ -30,8 +30,8 @@ class Game implements View, EventListener {
         
         keyboardManager.subscribe(this);
         
-        song = new SoundFile(parent, "audio/"+ osu.audioFile);
-
+        song = new SoundFile(parent, "audio/" + osu.audioFile);
+        
         song.play();
         startTime = millis();
     }
@@ -44,50 +44,61 @@ class Game implements View, EventListener {
         imageMode(CORNER);
         image(backdrop, 0, 0, width, height);
         image(track, width * 0.4, 0, width * 0.5, height);
-        // image(track, width * 0.4, 0, height/1.7, height);
-        textFont(eina_MB, 40/* 40 = 800/20)*/);
-        textAlign(CORNER);
+        textAlign(LEFT);
+        textFont(eina_MB, 40);
         fill(#77a6e0);
-        text("Score: " + score, width*0.05+3, height *0.1+3);
+        text("Score: " + score, width * 0.05 + 3, height * 0.1 + 3);
         fill(#a5cdff);
-        text("Score: " + score, width*0.05, height *0.1);
+        text("Score: " + score, width * 0.05, height * 0.1);
         textSize(30);
         fill(#77a6e0);
-        text("Combo: " + combo, width*0.05, height *0.2);
-        // fill(#a5cdff);
-        // text("Combo: " + combo, width*0.05, height *0.2);
-
-        int lineWidth = (int) Math.round(width * 0.4 * (15d / 875d));
-        int noteWidth = Math.round((width * 0.5 - lineWidth * 5) / 4);
-        int linePos = (int) Math.round(height * (1472d / 1750d));
+        text("Combo: " + combo, width * 0.05, height * 0.2);
+        
+        int lineWidth = (int) Math.floor(width * 0.4 * (15d / 875d));
+        int noteWidth = (int) Math.ceil((width * 0.5 - lineWidth * 5) / 4);
+        int linePos = (int) Math.floor(height * (1472d / 1750d));
         int tick = millis() - startTime;
         t0.nextFrame(tick, 0, lineWidth, noteWidth, linePos);
         t1.nextFrame(tick, 1, lineWidth, noteWidth, linePos);
         t2.nextFrame(tick, 2, lineWidth, noteWidth, linePos);
         t3.nextFrame(tick, 3, lineWidth, noteWidth, linePos);
+        
+        
+        if (tick < 5000) {
+            push();
+            textAlign(CENTER);
+            fill(#000000, 255 - (tick / 5000f) * 255);
+            textSize(32);
+            text("D", lineWidth * 1 + width * 0.4, linePos, noteWidth, 500);
+            text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4, linePos, noteWidth, 500);
+            text("J", noteWidth * 2 + lineWidth * 3 + width * 0.4, linePos, noteWidth, 500);
+            text("K", noteWidth * 3 + lineWidth * 4 + width * 0.4, linePos, noteWidth, 500);
+            pop();
+        }
     }
     
     void trigger() {
-        switch(keyCode) {
-            case 68 : // D
-                osu.cols.get(0).remove(0);
-                break;
-            case 70 : // F
-                osu.cols.get(1).remove(0);
-                break;
-            case 74 : // J
-                osu.cols.get(2).remove(0);
-                break;
-            case 75 : // K
-                osu.cols.get(3).remove(0);
-                break;
-        }
+        println(frameRate);
+        /* switch(keyCode) {
+        case 68 : // D
+        osu.cols.get(0).remove(0);
+        break;
+        case 70 : // F
+        osu.cols.get(1).remove(0);
+        break;
+        case 74 : // J
+        osu.cols.get(2).remove(0);
+        break;
+        case 75 : // K
+        osu.cols.get(3).remove(0);
+        break;
+    }*/
     }
 }
 
 class Note {
     int time;
-    int noteSpeed = 600; // % of the screen/s
+    int noteSpeed = 100; // % of the screen/s
     
     PImage note = loadImage("ui/game/note.png");
     
@@ -96,7 +107,7 @@ class Note {
     }
     
     void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
-        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10, noteWidth * (63f / 192));
+        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth * (63d / 192)));
     }
 }
 
@@ -117,7 +128,7 @@ class Track {
     }
     
     void nextFrame(int tick, int col, int lineWidth, int noteWidth, int linePos) {
-        int xPos = Math.round(noteWidth * col + lineWidth * (col + 1) + width * 0.4);
+        int xPos = (int) Math.floor(noteWidth * col + lineWidth * (col + 1) + width * 0.4);
         
         for (Note n : notes) {
             n.nextFrame(tick, xPos, noteWidth, linePos);
