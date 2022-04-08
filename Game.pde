@@ -64,10 +64,10 @@ class Game implements View, EventListener {
         t3.nextFrame(tick, 3, lineWidth, noteWidth, linePos);
         
         
-        if (tick < 5000) {
+        if (tick < 3000) {
             push();
             textAlign(CENTER);
-            fill(#000000, 255 - (tick / 5000f) * 300);
+            fill(#000000, 255 - (tick / 3000f) * 300);
             textSize(32);
             text("D", lineWidth * 1 + width * 0.4, linePos, noteWidth, 500);
             text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4, linePos, noteWidth, 500);
@@ -105,7 +105,7 @@ class Game implements View, EventListener {
 
 class Note {
     int time;
-    int noteSpeed = 100; // % of the screen/s
+    int noteSpeed = 300; // % of the screen/s
     
     PImage note = loadImage("ui/game/note.png");
     
