@@ -70,17 +70,25 @@ class Game implements View, EventListener {
     void trigger() {
         switch(keyCode) {
             case 68 : // D
+            if(!osu.cols.get(0).isEmpty()){
                 osu.cols.get(0).remove(0);
                 break;
+            }
             case 70 : // F
+            if(!osu.cols.get(0).isEmpty()){
                 osu.cols.get(1).remove(0);
                 break;
+            }
             case 74 : // J
+            if(!osu.cols.get(0).isEmpty()){
                 osu.cols.get(2).remove(0);
                 break;
+            }
             case 75 : // K
+            if(!osu.cols.get(0).isEmpty()){
                 osu.cols.get(3).remove(0);
                 break;
+            }
         }
     }
 }
