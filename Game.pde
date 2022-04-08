@@ -67,7 +67,7 @@ class Game implements View, EventListener {
         if (tick < 5000) {
             push();
             textAlign(CENTER);
-            fill(#000000, 255 - (tick / 5000f) * 255);
+            fill(#000000, 255 - (tick / 5000f) * 300);
             textSize(32);
             text("D", lineWidth * 1 + width * 0.4, linePos, noteWidth, 500);
             text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4, linePos, noteWidth, 500);
