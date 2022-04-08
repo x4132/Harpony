@@ -85,17 +85,17 @@ class Game implements View, EventListener {
                 break;
             }
             case 70 : // F
-            if(!osu.cols.get(0).isEmpty()){
+            if(!osu.cols.get(1).isEmpty()){
                 osu.cols.get(1).remove(0);
                 break;
             }
             case 74 : // J
-            if(!osu.cols.get(0).isEmpty()){
+            if(!osu.cols.get(2).isEmpty()){
                 osu.cols.get(2).remove(0);
                 break;
             }
             case 75 : // K
-            if(!osu.cols.get(0).isEmpty()){
+            if(!osu.cols.get(3).isEmpty()){
                 osu.cols.get(3).remove(0);
                 break;
             }
