@@ -32,6 +32,7 @@ class ViewManager implements View {
         map.put(Views.CUTSCENE, new Cutscene());
         map.put(Views.OPTIONS, new Options());
         map.put(Views.GAME, new Game());
+        map.put(Views.TUTORIAL, new Tutorial());
 
         this.curView = Views.MENU;
         this.getCurrent().initialize(null);
@@ -50,5 +51,6 @@ enum Views {
     MENU,
     CUTSCENE,
     GAME,
-    OPTIONS
+    OPTIONS,
+    TUTORIAL
 }
