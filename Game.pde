@@ -10,10 +10,6 @@ class Game implements View, EventListener {
     
     PImage track = loadImage("ui/game/track.png");
     
-    PImage begin = loadImage("ui/game/begin.png");
-    PImage middle = loadImage("ui/game/middle.png");
-    PImage end = loadImage("ui/game/end.png");
-    
     SoundFile song;
     
     OsuFile osu;
@@ -114,16 +110,29 @@ class Note {
     }
     
     void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
-        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth * (63d / 192)));
+        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
     }
 }
 
 class Hold extends Note {
-    int end;
+    int endT;
+
+    PImage begin = loadImage("ui/game/begin.png");
+    PImage middle = loadImage("ui/game/middle.png");
+    PImage end = loadImage("ui/game/end.png");
     
     Hold(int time, int end) {
         super(time);
-        this.end = end;
+        this.endT = end;
+    }
+
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
+        image(begin, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
+        for (int stackCounter = (int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos; stackCounter < Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos; stackCounter += (int) Math.floor(noteWidth * (63d / 192))) {
+            image(middle, xPos + 5, (int) Math.floor((tick - time) * (noteSpeed / 100d)) + linePos + stackCounter, noteWidth - 10, (int) Math.floor(noteWidth - 10 * (63d / 192)));
+        }
+        
+        image(end, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
     }
 }
 
