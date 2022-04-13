@@ -18,6 +18,11 @@ class Menu implements View{
     }
     
     void initialize(String s) {
+        // DELETE BEFORE PROD
+        curDiff = "difficulty_hard";
+        viewManager.setView(Views.GAME, "HappyFakeShow");
+
+
         start.show();
         tutorial.show();
         options.show();

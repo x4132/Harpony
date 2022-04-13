@@ -10,13 +10,12 @@ PApplet parent;
 
 void setup() {
     // fullScreen();
+    parent = this;
     size(800, 600, FX2D);
-    viewManager.initialize(null);
     open_sans = createFont("ui/Eina01-Regular.ttf", 32);
     eina_MB = createFont("ui/Eina01-SemiBold.ttf", 32);
     textFont(open_sans, 32);
-
-    parent = this;
+    viewManager.initialize(null);
 }
 
 void draw() {
