@@ -203,8 +203,9 @@ class Note {
         this.list = list;
     }
     
-    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track t) {
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track track) {
         if (tick > time + missBound + 5) {
+            track.g.combo = 0;
             it.remove();
             return;
         }
