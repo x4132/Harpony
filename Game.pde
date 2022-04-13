@@ -42,6 +42,7 @@ class Game implements View, KeyboardEventListener {
         
         keyboardManager.subscribe(this);
         
+        println("audio/" + osu.audioFile);
         song = new SoundFile(parent, "audio/" + osu.audioFile);
         
         song.play();
@@ -234,12 +235,9 @@ class Hold extends Note {
             return;
         }
         
-        image(begin, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
-        for (int stackCounter = (int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos; stackCounter < Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos; stackCounter += (int) Math.floor(noteWidth * (63d / 192))) {
-            image(middle, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 100d)) + linePos + stackCounter, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
-        }
-        
-        image(end, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
+        image(end, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((noteWidth - 10) * (63d / 192)));
+        image(middle, xPos + 5, (int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10, (int) Math.floor((tick - time) * (noteSpeed / 1000d)) - (int) Math.floor((tick - endT) * (noteSpeed / 1000d)));
+        image(begin, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((noteWidth - 10) * (63d / 192)));
     }
 }
 
