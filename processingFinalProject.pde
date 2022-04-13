@@ -30,3 +30,7 @@ void mousePressed() {
 void keyPressed() {
     keyboardManager.keyDown();
 }
+
+void keyReleased() {
+    keyboardManager.keyUp();
+}

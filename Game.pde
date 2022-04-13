@@ -22,9 +22,16 @@ class Game implements View, KeyboardEventListener {
     OsuFile osu;
     
     Track t0, t1, t2, t3;
+
+    ArrayList<Note> down = new ArrayList<Note>();
     
     void initialize(String s) {
         osu = new OsuFile("beatmaps/HappyFakeShow_" + curDiff + ".osu", sketchPath());
+        down = new ArrayList<Note>();
+        down.add(null);
+        down.add(null);
+        down.add(null);
+        down.add(null);
 
         startTime = 0;
         score = 0;
@@ -94,25 +101,29 @@ class Game implements View, KeyboardEventListener {
     
     void keyDown() {
         ArrayList<Note> list = osu.cols.get(0);
-        
+        int col;
         
         switch(keyCode) {
             case 68 : // D
+                col = 0;
                 if (!osu.cols.get(0).isEmpty()) {
                     list = osu.cols.get(0);
                 } else return;
                 break;
             case 70 : // F
+                col = 1;
                 if (!osu.cols.get(1).isEmpty()) {
                     list = osu.cols.get(1);
                 } else return;
                 break;
             case 74 : // J
+                col = 2;
                 if (!osu.cols.get(2).isEmpty()) {
                     list = osu.cols.get(2);
                 } else return;
                 break;
             case 75 : // K
+                col = 3;
                 if (!osu.cols.get(3).isEmpty()) {
                     list = osu.cols.get(3);
                 } else return;
@@ -132,6 +143,7 @@ class Game implements View, KeyboardEventListener {
             return;
         }
         if (cur instanceof Hold) {
+            down.set(col, cur);
             combo++;
             score += PPN;
         } else {
@@ -147,25 +159,29 @@ class Game implements View, KeyboardEventListener {
     
     void keyUp() {
         ArrayList<Note> list = osu.cols.get(0);
-        
+        int col = 0;
         
         switch(keyCode) {
             case 68 : // D
+                col = 0;
                 if (!osu.cols.get(0).isEmpty()) {
                     list = osu.cols.get(0);
                 } else return;
                 break;
             case 70 : // F
+                col = 1;
                 if (!osu.cols.get(1).isEmpty()) {
                     list = osu.cols.get(1);
                 } else return;
                 break;
             case 74 : // J
+                col = 2;
                 if (!osu.cols.get(2).isEmpty()) {
                     list = osu.cols.get(2);
                 } else return;
                 break;
             case 75 : // K
+                col = 3;
                 if (!osu.cols.get(3).isEmpty()) {
                     list = osu.cols.get(3);
                 } else return;
@@ -174,7 +190,7 @@ class Game implements View, KeyboardEventListener {
         }
         
         Note cur = list.get(0);
-        if (cur instanceof Hold) {
+        if (cur instanceof Hold && cur == down.get(col)) {
             int tick = millis() - startTime;
             int accuracy = Math.abs(cur.endT - tick);
             list.remove(0);
