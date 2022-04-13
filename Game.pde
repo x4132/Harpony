@@ -25,11 +25,17 @@ class Game implements View, KeyboardEventListener {
     
     void initialize(String s) {
         osu = new OsuFile("beatmaps/HappyFakeShow_" + curDiff + ".osu", sketchPath());
+
+        startTime = 0;
+        score = 0;
+        combo = 0;
+        total = 0;
+        PPN = 0;
         
-        t0 = new Track(osu.cols.get(0));
-        t1 = new Track(osu.cols.get(1));
-        t2 = new Track(osu.cols.get(2));
-        t3 = new Track(osu.cols.get(3));
+        t0 = new Track(osu.cols.get(0), this);
+        t1 = new Track(osu.cols.get(1), this);
+        t2 = new Track(osu.cols.get(2), this);
+        t3 = new Track(osu.cols.get(3), this);
         
         total = osu.total;
         PPN = 1000000f / total;
@@ -81,6 +87,8 @@ class Game implements View, KeyboardEventListener {
             text("K", noteWidth * 3 + lineWidth * 4 + width * 0.4, linePos, noteWidth, 500);
             pop();
         }
+
+        // push();
     }
     
     void keyDown() {
@@ -195,8 +203,9 @@ class Note {
         this.list = list;
     }
     
-    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track t) {
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track track) {
         if (tick > time + missBound + 5) {
+            track.g.combo = 0;
             it.remove();
             return;
         }
@@ -207,6 +216,7 @@ class Note {
 
 class Hold extends Note {
     boolean pressed;
+    Track track;
     
     PImage begin = loadImage("ui/game/begin.png");
     PImage middle = loadImage("ui/game/middle.png");
@@ -217,9 +227,10 @@ class Hold extends Note {
         this.endT = end;
     }
     
-    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track t) {
-        if (tick > endT + missBound + 5) {
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track track) {
+        if (tick > endT + missBound) {
             it.remove();
+            track.g.combo = 0;
             return;
         }
         
@@ -234,12 +245,12 @@ class Hold extends Note {
 
 class Track {
     ArrayList<Note> notes;
+    Game g;
     
-    Track(ArrayList<Note> notes) {
+    Track(ArrayList<Note> notes, Game g) {
         this.notes = notes;
+        this.g = g;
     }
-    
-    void miss() {}
     
     void nextFrame(int tick, int col, int lineWidth, int noteWidth, int linePos) {
         int xPos = (int) Math.floor(noteWidth * col + lineWidth * (col + 1) + width * 0.4);
