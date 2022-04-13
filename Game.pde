@@ -8,6 +8,7 @@ int niceBound = 128;
 class Game implements View, KeyboardEventListener {
     JSONObject data;
     int startTime = 0;
+    int endTime = -1;
     int score = 0;
     int combo = 0;
     int total = 0;
@@ -22,11 +23,15 @@ class Game implements View, KeyboardEventListener {
     OsuFile osu;
     
     Track t0, t1, t2, t3;
+    boolean d0, d1, d2, d3;
+
+    String cur = "";
 
     ArrayList<Note> down = new ArrayList<Note>();
     
     void initialize(String s) {
-        osu = new OsuFile("beatmaps/HappyFakeShow_" + curDiff + ".osu", sketchPath());
+        cur = s;
+        osu = new OsuFile("beatmaps/" + s + "_" + curDiff + ".osu", sketchPath());
         down = new ArrayList<Note>();
         down.add(null);
         down.add(null);
@@ -49,7 +54,6 @@ class Game implements View, KeyboardEventListener {
         
         keyboardManager.subscribe(this);
         
-        println("audio/" + osu.audioFile);
         song = new SoundFile(parent, "audio/" + osu.audioFile);
         
         song.play();
@@ -57,7 +61,7 @@ class Game implements View, KeyboardEventListener {
     }
     
     void destructor() {
-        
+        keyboardManager.unsubscribe(this);
     }
     
     void nextFrame() {
@@ -83,20 +87,51 @@ class Game implements View, KeyboardEventListener {
         t2.nextFrame(tick, 2, lineWidth, noteWidth, linePos);
         t3.nextFrame(tick, 3, lineWidth, noteWidth, linePos);
         
+        if (t0.notes.size() == 0 && t1.notes.size() == 0 && t2.notes.size() == 0 && t3.notes.size() == 0) {
+            if (endTime > 0) {
+                if (tick - endTime > 10000) {
+                    if (cur == "HappyFakeShow") {
+                        
+                    }
+                }
+            } else {
+                endTime = tick;
+            }
+        }
         
         if (tick < 5000) {
             push();
             textAlign(CENTER);
+            rectMode(CENTER);
             fill(#000000, 255 - (tick / 5000f) * 300);
             textSize(32);
-            text("D", lineWidth * 1 + width * 0.4, linePos, noteWidth, 500);
-            text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4, linePos, noteWidth, 500);
-            text("J", noteWidth * 2 + lineWidth * 3 + width * 0.4, linePos, noteWidth, 500);
-            text("K", noteWidth * 3 + lineWidth * 4 + width * 0.4, linePos, noteWidth, 500);
+            text("D", lineWidth * 1 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
+            text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
+            text("J", noteWidth * 2 + lineWidth * 3 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
+            text("K", noteWidth * 3 + lineWidth * 4 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
             pop();
         }
 
-        // push();
+        push();
+        ellipseMode(CENTER);
+        stroke(#77a6e0);
+        int al = 0;
+        if (d0) al = 255; else al = 0; 
+        fill(#77a6e0, al);
+        ellipse(lineWidth * 1 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
+        al = 0;
+        if (d1) al = 255; else al = 0; 
+        fill(#77a6e0, al);
+        ellipse(noteWidth * 1 + lineWidth * 2 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
+        al = 0;
+        if (d2) al = 255; else al = 0; 
+        fill(#77a6e0, al);
+        ellipse(noteWidth * 2 + lineWidth * 3 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
+        al = 0;
+        if (d3) al = 255; else al = 0; 
+        fill(#77a6e0, al);
+        ellipse(noteWidth * 3 + lineWidth * 4 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
+        pop();
     }
     
     void keyDown() {
@@ -106,24 +141,28 @@ class Game implements View, KeyboardEventListener {
         switch(keyCode) {
             case 68 : // D
                 col = 0;
+                d0 = true;
                 if (!osu.cols.get(0).isEmpty()) {
                     list = osu.cols.get(0);
                 } else return;
                 break;
             case 70 : // F
                 col = 1;
+                d1 = true;
                 if (!osu.cols.get(1).isEmpty()) {
                     list = osu.cols.get(1);
                 } else return;
                 break;
             case 74 : // J
                 col = 2;
+                d2 = true;
                 if (!osu.cols.get(2).isEmpty()) {
                     list = osu.cols.get(2);
                 } else return;
                 break;
             case 75 : // K
                 col = 3;
+                d3 = true;
                 if (!osu.cols.get(3).isEmpty()) {
                     list = osu.cols.get(3);
                 } else return;
@@ -164,24 +203,28 @@ class Game implements View, KeyboardEventListener {
         switch(keyCode) {
             case 68 : // D
                 col = 0;
+                d0 = false;
                 if (!osu.cols.get(0).isEmpty()) {
                     list = osu.cols.get(0);
                 } else return;
                 break;
             case 70 : // F
                 col = 1;
+                d1 = false;
                 if (!osu.cols.get(1).isEmpty()) {
                     list = osu.cols.get(1);
                 } else return;
                 break;
             case 74 : // J
                 col = 2;
+                d2 = false;
                 if (!osu.cols.get(2).isEmpty()) {
                     list = osu.cols.get(2);
                 } else return;
                 break;
             case 75 : // K
                 col = 3;
+                d3 = false;
                 if (!osu.cols.get(3).isEmpty()) {
                     list = osu.cols.get(3);
                 } else return;
