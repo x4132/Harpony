@@ -14,6 +14,8 @@ class OsuFile {
     int bpm;
     int meter;
 
+    int total = 0;
+
     ArrayList<ArrayList<Note>> cols = new ArrayList<ArrayList<Note>>();
 
     OsuFile(String filename, String pwd) {
@@ -52,7 +54,6 @@ class OsuFile {
             scanner.nextLine();scanner.next();scanner.nextLine();// seek to [HitObjects]
             println("Loading Hit Objects");
 
-            int total = 0;
             // HIT OBJECTS
             while (scanner.hasNextLine()) {
                 total++;
@@ -70,6 +71,7 @@ class OsuFile {
                         scanner.skip(",");
                         end = Integer.parseInt(scanner.nextLine().split(":")[0].trim());
                         cols.get(col).add(new Hold(time, end));
+                        total++;
                         continue;
                     default:
                         break;

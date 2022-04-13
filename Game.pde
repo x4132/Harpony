@@ -1,10 +1,17 @@
 import processing.sound.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-class Game implements View, EventListener {
+int missBound = 198;
+int niceBound = 128;
+
+class Game implements View, KeyboardEventListener {
     JSONObject data;
     int startTime = 0;
     int score = 0;
     int combo = 0;
+    int total = 0;
+    float PPN = 0;
     
     PImage backdrop = loadImage("ui/game/bkg.png");
     
@@ -23,6 +30,9 @@ class Game implements View, EventListener {
         t1 = new Track(osu.cols.get(1));
         t2 = new Track(osu.cols.get(2));
         t3 = new Track(osu.cols.get(3));
+        
+        total = osu.total;
+        PPN = 1000000f / total;
         
         keyboardManager.subscribe(this);
         
@@ -73,27 +83,98 @@ class Game implements View, EventListener {
         }
     }
     
-    void trigger() {
+    void keyDown() {
+        ArrayList<Note> list = osu.cols.get(0);
+        
+        
         switch(keyCode) {
             case 68 : // D
-            if(!osu.cols.get(0).isEmpty()){
-                osu.cols.get(0).remove(0);
+                if (!osu.cols.get(0).isEmpty()) {
+                    list = osu.cols.get(0);
+                } else return;
                 break;
-            }
             case 70 : // F
-            if(!osu.cols.get(1).isEmpty()){
-                osu.cols.get(1).remove(0);
+                if (!osu.cols.get(1).isEmpty()) {
+                    list = osu.cols.get(1);
+                } else return;
                 break;
-            }
             case 74 : // J
-            if(!osu.cols.get(2).isEmpty()){
-                osu.cols.get(2).remove(0);
+                if (!osu.cols.get(2).isEmpty()) {
+                    list = osu.cols.get(2);
+                } else return;
                 break;
-            }
             case 75 : // K
-            if(!osu.cols.get(3).isEmpty()){
-                osu.cols.get(3).remove(0);
+                if (!osu.cols.get(3).isEmpty()) {
+                    list = osu.cols.get(3);
+                } else return;
                 break;
+            default: return;
+        }
+        
+        Note cur = list.get(0);
+        int tick = millis() - startTime;
+        int accuracy = Math.abs(cur.time - tick);
+        if (accuracy > missBound + 200) {
+            return;
+        }
+        if (accuracy > missBound) { // miss
+            combo = 0;
+            list.remove(0);
+            return;
+        }
+        if (cur instanceof Hold) {
+            combo++;
+            score += PPN;
+        } else {
+            list.remove(0);
+            combo++;
+            if (accuracy > niceBound) { // nice hit
+                score += PPN / 2;
+            } else { // perfect hit
+                score += PPN;
+            }
+        }
+    }
+    
+    void keyUp() {
+        ArrayList<Note> list = osu.cols.get(0);
+        
+        
+        switch(keyCode) {
+            case 68 : // D
+                if (!osu.cols.get(0).isEmpty()) {
+                    list = osu.cols.get(0);
+                } else return;
+                break;
+            case 70 : // F
+                if (!osu.cols.get(1).isEmpty()) {
+                    list = osu.cols.get(1);
+                } else return;
+                break;
+            case 74 : // J
+                if (!osu.cols.get(2).isEmpty()) {
+                    list = osu.cols.get(2);
+                } else return;
+                break;
+            case 75 : // K
+                if (!osu.cols.get(3).isEmpty()) {
+                    list = osu.cols.get(3);
+                } else return;
+                break;
+            default: return;
+        }
+        
+        Note cur = list.get(0);
+        if (cur instanceof Hold) {
+            int tick = millis() - startTime;
+            int accuracy = Math.abs(cur.endT - tick);
+            list.remove(0);
+            if (accuracy > missBound) { // miss
+                combo = 0;
+                return;
+            } else {
+                combo++;
+                score += PPN;
             }
         }
     }
@@ -101,22 +182,32 @@ class Game implements View, EventListener {
 
 class Note {
     int time;
-    int noteSpeed = 300; // % of the screen/s
+    int endT;
+    int noteSpeed = 350; // % of the screen/s
+    
+    ArrayList<Note> list;
     
     PImage note = loadImage("ui/game/note.png");
     
     Note(int time) {
         this.time = time;
+        this.endT = time;
+        this.list = list;
     }
     
-    void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
-        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track t) {
+        if (tick > time + missBound + 5) {
+            it.remove();
+            return;
+        }
+        
+        image(note, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((noteWidth - 10) * (63d / 192)));
     }
 }
 
 class Hold extends Note {
-    int endT;
-
+    boolean pressed;
+    
     PImage begin = loadImage("ui/game/begin.png");
     PImage middle = loadImage("ui/game/middle.png");
     PImage end = loadImage("ui/game/end.png");
@@ -125,11 +216,16 @@ class Hold extends Note {
         super(time);
         this.endT = end;
     }
-
-    void nextFrame(int tick, int xPos, int noteWidth, int linePos) {
+    
+    void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track t) {
+        if (tick > endT + missBound + 5) {
+            it.remove();
+            return;
+        }
+        
         image(begin, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
         for (int stackCounter = (int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos; stackCounter < Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos; stackCounter += (int) Math.floor(noteWidth * (63d / 192))) {
-            image(middle, xPos + 5, (int) Math.floor((tick - time) * (noteSpeed / 100d)) + linePos + stackCounter, noteWidth - 10, (int) Math.floor(noteWidth - 10 * (63d / 192)));
+            image(middle, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 100d)) + linePos + stackCounter, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
         }
         
         image(end, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor(noteWidth - 10 * (63d / 192)));
@@ -143,11 +239,14 @@ class Track {
         this.notes = notes;
     }
     
+    void miss() {}
+    
     void nextFrame(int tick, int col, int lineWidth, int noteWidth, int linePos) {
         int xPos = (int) Math.floor(noteWidth * col + lineWidth * (col + 1) + width * 0.4);
         
-        for (Note n : notes) {
-            n.nextFrame(tick, xPos, noteWidth, linePos);
+        Iterator<Note> it = notes.iterator();
+        while(it.hasNext()) {
+            it.next().nextFrame(tick, xPos, noteWidth, linePos, it, this);
         }
     }
 }
