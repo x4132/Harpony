@@ -18,7 +18,7 @@ class Game implements View, KeyboardEventListener {
     PImage backdrop = loadImage("ui/game/bkg.png");
     
     PImage track = loadImage("ui/game/track.png");
-
+    
     PImage missrank = loadImage("ui/game/missrank.png");
     PImage nicerank = loadImage("ui/game/nicerank.png");
     PImage amazingrank = loadImage("ui/game/amazingrank.png");
@@ -29,9 +29,9 @@ class Game implements View, KeyboardEventListener {
     
     Track t0, t1, t2, t3;
     boolean d0, d1, d2, d3;
-
+    
     String cur = "";
-
+    
     ArrayList<Note> down = new ArrayList<Note>();
     
     void initialize(String s) {
@@ -42,14 +42,14 @@ class Game implements View, KeyboardEventListener {
         down.add(null);
         down.add(null);
         down.add(null);
-
+        
         startTime = 0;
         score = 0;
         combo = 0;
         total = 0;
         PPN = 0;
         hitrank = 0;
-
+        
         d0 = d1 = d2 = d3 = false;
         
         t0 = new Track(osu.cols.get(0), this);
@@ -90,7 +90,7 @@ class Game implements View, KeyboardEventListener {
         int noteWidth = (int) Math.ceil((width * 0.5 - lineWidth * 5) / 4);
         int linePos = (int) Math.floor(height * (1472d / 1750d));
         int tick = millis() - startTime;
-
+        
         t0.nextFrame(tick, 0, lineWidth, noteWidth, linePos);
         t1.nextFrame(tick, 1, lineWidth, noteWidth, linePos);
         t2.nextFrame(tick, 2, lineWidth, noteWidth, linePos);
@@ -98,13 +98,12 @@ class Game implements View, KeyboardEventListener {
         
         if (t0.notes.size() == 0 && t1.notes.size() == 0 && t2.notes.size() == 0 && t3.notes.size() == 0) {
             if (endTime > 0) {
+                song.amp(Math.min(Math.abs(((tick - endTime) / 3000f) - 1), 1));
                 if (tick - endTime > 3000) {
-                    song.amp((tick - endTime) / 3000);
-
                     song.stop();
-
+                    
                     Views v = score >= 800000 ? Views.CLEAR : Views.FAIL;
-
+                    
                     if (cur.equals("HappyFakeShow")) {
                         viewManager.setView(v, "next");
                     } else if (cur.equals("EnchantedLove")) {
@@ -128,7 +127,7 @@ class Game implements View, KeyboardEventListener {
             text("K", noteWidth * 3 + lineWidth * 4 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
             pop();
         }
-
+        
         push();
         ellipseMode(CENTER);
         stroke(#77a6e0);
@@ -149,7 +148,7 @@ class Game implements View, KeyboardEventListener {
         fill(#77a6e0, al);
         ellipse(noteWidth * 3 + lineWidth * 4 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
         pop();
-
+        
         push();
         imageMode(CENTER);
         if (hitrank == 0) {
@@ -195,7 +194,7 @@ class Game implements View, KeyboardEventListener {
                     list = osu.cols.get(3);
                 } else return;
                 break;
-            default: return;
+            default : return;
         }
         
         Note cur = list.get(0);
@@ -261,7 +260,7 @@ class Game implements View, KeyboardEventListener {
                     list = osu.cols.get(3);
                 } else return;
                 break;
-            default: return;
+            default : return;
         }
         
         Note cur = list.get(0);
@@ -285,7 +284,7 @@ class Game implements View, KeyboardEventListener {
 class Note {
     int time;
     int endT;
-    int noteSpeed = 1000; // % of the screen/s
+    int noteSpeed = 300; // % of the screen/s
     
     ArrayList<Note> list;
     
@@ -331,7 +330,7 @@ class Hold extends Note {
         }
         
         image(end, xPos + 5,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((noteWidth - 10) * (63d / 192)));
-        image(middle, xPos + 5, (int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10, (int) Math.floor((tick - time) * (noteSpeed / 1000d)) - (int) Math.floor((tick - endT) * (noteSpeed / 1000d)));
+        image(middle, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((tick - time) * (noteSpeed / 1000d)) - (int) Math.floor((tick - endT) * (noteSpeed / 1000d)));
         image(begin, xPos + 5,(int) Math.floor((tick - endT) * (noteSpeed / 1000d)) + linePos, noteWidth - 10,(int) Math.floor((noteWidth - 10) * (63d / 192)));
     }
 }
