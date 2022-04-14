@@ -10,7 +10,7 @@ class Tutorial implements View {
         textSize(50);
         textFont(eina_MB);
         fill(#ea9f75);
-        text("How to play: ", 60, 60);
+        text("How to play: ", width * 0.1, 60);
         textSize(30);
         text("- Tap on beat when a normal note reaches", 60, 100);
         text("the blue line", 60, 130);

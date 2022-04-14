@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 int missBound = 198;
 int niceBound = 128;
+int hitrank = 0;
 
 class Game implements View, KeyboardEventListener {
     JSONObject data;
@@ -17,6 +18,10 @@ class Game implements View, KeyboardEventListener {
     PImage backdrop = loadImage("ui/game/bkg.png");
     
     PImage track = loadImage("ui/game/track.png");
+
+    PImage missrank = loadImage("ui/game/missrank.png");
+    PImage nicerank = loadImage("ui/game/nicerank.png");
+    PImage amazingrank = loadImage("ui/game/amazingrank.png");
     
     SoundFile song;
     
@@ -43,6 +48,7 @@ class Game implements View, KeyboardEventListener {
         combo = 0;
         total = 0;
         PPN = 0;
+        hitrank = 0;
 
         d0 = d1 = d2 = d3 = false;
         
@@ -143,6 +149,17 @@ class Game implements View, KeyboardEventListener {
         fill(#77a6e0, al);
         ellipse(noteWidth * 3 + lineWidth * 4 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.5, noteWidth * 0.75, noteWidth * 0.75);
         pop();
+
+        push();
+        imageMode(CENTER);
+        if (hitrank == 0) {
+            image(nicerank, width * 0.2, height * 0.6, width * 0.609 * 0.5, width * 0.832 * 0.5);
+        } else if (hitrank == 1) {
+            image(amazingrank, width * 0.2, height * 0.6, width * 0.673 * 0.5, width * 0.901 * 0.5);
+        } else if (hitrank == -1) {
+            image(missrank, width * 0.2, height * 0.6, width * 0.458 * 0.5, width * 0.841 * 0.5);
+        }
+        pop();
     }
     
     void keyDown() {
@@ -188,11 +205,13 @@ class Game implements View, KeyboardEventListener {
             return;
         }
         if (accuracy > missBound) { // miss
+            hitrank = -1;
             combo = 0;
             list.remove(0);
             return;
         }
         if (cur instanceof Hold) {
+            hitrank = 1;
             down.set(col, cur);
             combo++;
             score += PPN;
@@ -200,8 +219,10 @@ class Game implements View, KeyboardEventListener {
             list.remove(0);
             combo++;
             if (accuracy > niceBound) { // nice hit
+                hitrank = 0;
                 score += PPN / 2;
             } else { // perfect hit
+                hitrank = 1;
                 score += PPN;
             }
         }
@@ -249,9 +270,11 @@ class Game implements View, KeyboardEventListener {
             int accuracy = Math.abs(cur.endT - tick);
             list.remove(0);
             if (accuracy > missBound) { // miss
+                hitrank = -1;
                 combo = 0;
                 return;
             } else {
+                hitrank = 1;
                 combo++;
                 score += PPN;
             }
@@ -276,6 +299,7 @@ class Note {
     
     void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track track) {
         if (tick > time + missBound + 5) {
+            hitrank = -1;
             track.g.combo = 0;
             it.remove();
             return;
@@ -300,6 +324,7 @@ class Hold extends Note {
     
     void nextFrame(int tick, int xPos, int noteWidth, int linePos, Iterator<Note> it, Track track) {
         if (tick > endT + missBound) {
+            hitrank = -1;
             it.remove();
             track.g.combo = 0;
             return;
