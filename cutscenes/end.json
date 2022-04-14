@@ -3,7 +3,7 @@
     "ticks": 90,
     "textSize": 36,
     "endAction": {
-        "view": "GAME",
-        "opt": "HappyFakeShow"
+        "view": "MENU",
+        "opt": ""
     }
 }

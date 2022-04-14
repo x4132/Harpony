@@ -85,6 +85,9 @@ class Button implements EventListener {
                 case "next":
                     viewManager.setView(Views.CUTSCENE, "next");
                     break;
+                case "end":
+                    viewManager.setView(Views.CUTSCENE, "end");
+                    break;
                 case"generic":
                 default:
                     break;
