@@ -262,7 +262,7 @@ class Game implements View, KeyboardEventListener {
 class Note {
     int time;
     int endT;
-    int noteSpeed = 500; // % of the screen/s
+    int noteSpeed = 1000; // % of the screen/s
     
     ArrayList<Note> list;
     
