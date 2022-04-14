@@ -101,6 +101,8 @@ class Game implements View, KeyboardEventListener {
 
                     if (cur.equals("HappyFakeShow")) {
                         viewManager.setView(v, "next");
+                    } else if (cur.equals("EnchantedLove")) {
+                        viewManager.setView(v, "end");
                     }
                 }
             } else {
