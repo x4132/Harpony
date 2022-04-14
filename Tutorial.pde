@@ -9,14 +9,14 @@ class Tutorial implements View {
         image(backdrop,0,0,width,height);
         textSize(50);
         fill(#ea9f75);
-        text("How to play: ", 60, 60);
+        text("How to play: ", width * 0.1, 60);
         textSize(30);
-        text("- Tap on beat when a normal note reaches the blue line", 60, 100);
-        text("- Use either D, F, J, or K to hit the notes", 60, 130);
-        text("- Hold notes require you to hold down the key and are different from the normal notes", 60, 160);
-        text("- Hold them until it ends", 60, 190);
-        image(normal, width / 4, height * 3 / 4);
-        image(hold, width * 3 / 4, height * 3 / 4);
+        text("- Tap on beat when a note reaches the blue line", width * 0.05, 100);
+        text("- Use either D, F, J, or K to hit the notes", width * 0.05, 130);
+        text("- Hold notes require you to hold and release the key", width * 0.05, 160);
+        text("- Hold them until it ends", width * 0.05, 190);
+        //image(normal, width / 4, height * 3 / 4);
+        //image(hold, width * 3 / 4, height * 3 / 4);
         back.draw();
     }
     
