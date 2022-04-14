@@ -1,0 +1,9 @@
+{
+    "text": "Whenever Saul had been bothered by the evil spirit from God, David would play his harp. Saul felt relaxed and the evil spirit went away",
+    "ticks": 90,
+    "textSize": 36,
+    "endAction": {
+        "view": "GAME",
+        "opt": "HappyFakeShow"
+    }
+}

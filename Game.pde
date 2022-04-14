@@ -43,6 +43,8 @@ class Game implements View, KeyboardEventListener {
         combo = 0;
         total = 0;
         PPN = 0;
+
+        d0 = d1 = d2 = d3 = false;
         
         t0 = new Track(osu.cols.get(0), this);
         t1 = new Track(osu.cols.get(1), this);
@@ -56,8 +58,8 @@ class Game implements View, KeyboardEventListener {
         
         song = new SoundFile(parent, "audio/" + osu.audioFile);
         
-        song.play();
         startTime = millis();
+        song.jump(0);
     }
     
     void destructor() {
@@ -82,6 +84,7 @@ class Game implements View, KeyboardEventListener {
         int noteWidth = (int) Math.ceil((width * 0.5 - lineWidth * 5) / 4);
         int linePos = (int) Math.floor(height * (1472d / 1750d));
         int tick = millis() - startTime;
+
         t0.nextFrame(tick, 0, lineWidth, noteWidth, linePos);
         t1.nextFrame(tick, 1, lineWidth, noteWidth, linePos);
         t2.nextFrame(tick, 2, lineWidth, noteWidth, linePos);
@@ -89,9 +92,15 @@ class Game implements View, KeyboardEventListener {
         
         if (t0.notes.size() == 0 && t1.notes.size() == 0 && t2.notes.size() == 0 && t3.notes.size() == 0) {
             if (endTime > 0) {
-                if (tick - endTime > 10000) {
-                    if (cur == "HappyFakeShow") {
-                        
+                if (tick - endTime > 3000) {
+                    song.amp((tick - endTime) / 3000);
+
+                    song.stop();
+
+                    Views v = score >= 800000 ? Views.CLEAR : Views.FAIL;
+
+                    if (cur.equals("HappyFakeShow")) {
+                        viewManager.setView(v, "next");
                     }
                 }
             } else {

@@ -14,6 +14,12 @@ class Cutscene implements View, EventListener {
             case "begin":
                 path = "intro.json";
                 break;
+            case "next":
+                path = "next.json";
+                break;
+            case "end":
+                path = "end.json";
+                break;
         }
         
         try{

@@ -1,0 +1,9 @@
+{
+    "text": "A man named Jesse from Bethlehem had a son who could play the harp, and the Lord was with him. The son, David, was sent to Saul and brought gifts as well. Saul liked David so much that he asked to have him stay.",
+    "ticks": 90,
+    "textSize": 36,
+    "endAction": {
+        "view": "GAME",
+        "opt": "EnchantedLove"
+    }
+}
