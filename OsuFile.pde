@@ -50,9 +50,11 @@ class OsuFile {
             scanner.next();
             bpm = (int) Math.floor(60000 / scanner.nextDouble());
             meter = scanner.nextInt();
+            scanner.useDelimiter(sections);
             
-            scanner.nextLine();scanner.next();scanner.nextLine();// seek to [HitObjects]
+            scanner.next();scanner.nextLine();// seek to [HitObjects]
             println("Loading Hit Objects");
+            scanner.useDelimiter(",");
 
             // HIT OBJECTS
             while (scanner.hasNextLine()) {
