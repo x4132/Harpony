@@ -115,11 +115,11 @@ class Game implements View, KeyboardEventListener {
             }
         }
         
-        if (tick < 5000) {
+        if (tick < 10000) {
             push();
             textAlign(CENTER);
             rectMode(CENTER);
-            fill(#000000, 255 - (tick / 5000f) * 300);
+            fill(#000000, 255 - (tick / 10000f) * 300);
             textSize(32);
             text("D", lineWidth * 1 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
             text("F", noteWidth * 1 + lineWidth * 2 + width * 0.4 + noteWidth * 0.5, linePos + noteWidth * 0.6, noteWidth * 0.75, noteWidth * 0.75);
@@ -284,7 +284,7 @@ class Game implements View, KeyboardEventListener {
 class Note {
     int time;
     int endT;
-    int noteSpeed = 300; // % of the screen/s
+    int noteSpeed = 600; // % of the screen/s
     
     ArrayList<Note> list;
     
