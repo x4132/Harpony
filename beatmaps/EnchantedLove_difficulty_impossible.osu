@@ -1,7 +1,7 @@
 osu file format v14
 
 [General]
-AudioFilename: audio.mp3
+AudioFilename: EnchantedLove.wav
 AudioLeadIn: 0
 PreviewTime: 0
 Countdown: 0
@@ -55,9 +55,6 @@ Video,0,"linear ring - enchanted love.mp4"
 
 
 [HitObjects]
-448,192,0,5,0,0:0:0:0:
-320,192,0,1,0,0:0:0:0:
-64,192,210,1,0,0:0:0:0:
 182,192,315,1,0,0:0:0:100:
 320,192,526,1,0,0:0:0:0:
 320,192,842,1,0,0:0:0:0:
