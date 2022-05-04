@@ -1,2 +1,2 @@
 # Processing Final Project
-Final project for CMPT 113
+A rhythm game, created as a university final project. 
